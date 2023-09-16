@@ -26,7 +26,7 @@ pip install python-bip329 (not pushed to PyPI yet!)
 ## Usage
 
 ```python
-from bip329_parser import BIP329_Parser
+from bip329.bip329_parser import BIP329_Parser
 filename = "/Users/satoshi/bip-329-labels.jsonp"
 parser = BIP329_Parser(filename)
 entries = parser.load_entries()
