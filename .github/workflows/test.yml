@@ -1,4 +1,4 @@
-name: Run Tests
+name: CI
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,13 +16,16 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.9
+        python-version: 3.x  # Replace with your desired Python version
 
     - name: Install dependencies
-      run: pip install -r requirements.txt
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt  # Install your project's dependencies
+        pip install flake8  # Install flake8
+
+    - name: Run flake8
+      run: flake8 .  # Run flake8 to check for code style issues
 
     - name: Run tests
-      run: python -m unittest discover bip329/tests
-
-    - name: Run Flake8 and PEP 8 checks
-      run: flake8 .
+      run: python -m unittest discover -s bip329/tests  # Replace with your test command
