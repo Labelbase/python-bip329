@@ -5,12 +5,13 @@ import os
 
 def encrypt_files(output_archive, files_to_encrypt, passphrase):
     # Hash the passphrase using SHA256
-    key = hashlib.sha256(passphrase.encode()).hexdigest()  # Convert bytes to a hexadecimal string
+    # Convert bytes to a hexadecimal string
+    key = hashlib.sha256(passphrase.encode()).hexdigest()
     # Create the 7z archive with AES-256 encryption containing the specified files
     with py7zr.SevenZipFile(output_archive, 'w', password=key) as archive:
         for file_to_encrypt in files_to_encrypt:
-            archive.write(file_to_encrypt, arcname=os.path.basename(file_to_encrypt))
-
+            archive.write(file_to_encrypt,
+                          arcname=os.path.basename(file_to_encrypt))
 
 
 def decrypt_files(archive_path, output_dir, passphrase):
@@ -20,6 +21,7 @@ def decrypt_files(archive_path, output_dir, passphrase):
     with py7zr.SevenZipFile(archive_path, mode='r', password=key) as archive:
         # Extract the contents of the archive to the specified output directory
         archive.extractall(path=output_dir)
+
 
 """
 # Example usage:

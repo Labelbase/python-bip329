@@ -5,6 +5,7 @@ from .constants import VALID_REQUIRED_KEYS
 from .constants import VALID_TYPE_KEYS
 from .constants import MANDATORY_KEYS_ERROR
 
+
 class BIP329_Parser:
     def __init__(self, jsonl_path):
         self.jsonl_path = jsonl_path

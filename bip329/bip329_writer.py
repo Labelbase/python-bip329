@@ -13,6 +13,7 @@ from .constants import MANDATORY_KEYS_ERROR
 
 from .encryption import encrypt_files
 
+
 class BIP329JSONLWriter:
     def __init__(self, filename, remove_existing=True):
         """
@@ -32,12 +33,12 @@ class BIP329JSONLWriter:
                 backup_filename = f"{self.filename}.{timestamp}.bak"
                 shutil.move(self.filename, backup_filename)
 
-
     def write_label(self, line):
         # Check if the line is a valid BIP-329 record
         if (
             (isinstance(line, dict) and "type" in line and "ref" in line and "label" in line) or
-            (callable(getattr(line, "type", None)) and callable(getattr(line, "ref", None)) and hasattr(line, "label"))
+            (callable(getattr(line, "type", None)) and callable(
+                getattr(line, "ref", None)) and hasattr(line, "label"))
         ):
             if callable(getattr(line, "type", None)):
                 label_type = line.type()
@@ -67,33 +68,40 @@ class BIP329JSONLWriter:
                 if isinstance(origin, str) and origin:
                     label_dict["origin"] = origin
                 else:
-                    raise ValueError("Invalid 'origin' field in BIP-329 record")
+                    raise ValueError(
+                        "Invalid 'origin' field in BIP-329 record")
 
             elif "origin" in line:
                 origin = line["origin"]
                 if isinstance(origin, str) and origin:
                     label_dict["origin"] = origin
                 else:
-                    raise ValueError("Invalid 'origin' field in BIP-329 record")
+                    raise ValueError(
+                        "Invalid 'origin' field in BIP-329 record")
 
             # Check and add "spendable" if present and valid
             if callable(getattr(line, "spendable", None)):
                 spendable = line.spendable()
                 if spendable in VALID_SPENDABLE_VALUES:
-                    label_dict["spendable"] = "true" if spendable in ["true", True] else "false"
+                    label_dict["spendable"] = "true" if spendable in [
+                        "true", True] else "false"
                 else:
-                    raise ValueError("Invalid 'spendable' field in BIP-329 record")
+                    raise ValueError(
+                        "Invalid 'spendable' field in BIP-329 record")
             elif "spendable" in line:
                 spendable = line["spendable"]
                 if spendable in VALID_SPENDABLE_VALUES:
-                    label_dict["spendable"] = "true" if spendable in ["true", True] else "false"
+                    label_dict["spendable"] = "true" if spendable in [
+                        "true", True] else "false"
                 else:
-                    raise ValueError("Invalid 'spendable' field in BIP-329 record")
+                    raise ValueError(
+                        "Invalid 'spendable' field in BIP-329 record")
 
             with open(self.filename, mode='a', encoding='utf-8') as writer:
                 writer.write(json.dumps(label_dict) + '\n')
         else:
-            raise ValueError("Invalid BIP-329 record: 'type', 'ref', and 'label' attributes or keys are required, and only valid fields are exported.")
+            raise ValueError(
+                "Invalid BIP-329 record: 'type', 'ref', and 'label' attributes or keys are required, and only valid fields are exported.")
 
 
 class BIP329JSONLEncryptedWriter:
@@ -108,8 +116,10 @@ class BIP329JSONLEncryptedWriter:
           Setting it to `False` will preserve any previously exported files by creating a backup if necessary.
           The path to the backup will stored in self.backup_filename .
         """
-        self.temp_file = tempfile.NamedTemporaryFile(delete=False, mode='w', encoding='utf-8')
-        self.jsonl_writer = BIP329JSONLWriter(self.temp_file.name, remove_existing=True)
+        self.temp_file = tempfile.NamedTemporaryFile(
+            delete=False, mode='w', encoding='utf-8')
+        self.jsonl_writer = BIP329JSONLWriter(
+            self.temp_file.name, remove_existing=True)
         self.filename = filename
         self.backup_filename = None
         self.passphrase = passphrase
@@ -124,7 +134,6 @@ class BIP329JSONLEncryptedWriter:
                 timestamp = int(time.time())
                 self.backup_filename = f"{self.filename}.{timestamp}.bak"
                 shutil.move(self.filename, self.backup_filename)
-
 
         self.is_closed = False
 

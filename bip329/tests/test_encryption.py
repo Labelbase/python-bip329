@@ -5,6 +5,7 @@ import unittest
 from bip329.encryption import encrypt_files
 from bip329.encryption import decrypt_files
 
+
 class TestEncryption(unittest.TestCase):
     def setUp(self):
         self.temp_dir = tempfile.mkdtemp()
@@ -42,6 +43,7 @@ class TestEncryption(unittest.TestCase):
             decrypted_content = f.read()
 
         self.assertEqual(decrypted_content, self._msg)
+
 
 if __name__ == '__main__':
     unittest.main()

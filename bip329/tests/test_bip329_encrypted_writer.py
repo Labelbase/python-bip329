@@ -12,7 +12,8 @@ class TestBIP329JSONLEncryptedWriter(unittest.TestCase):
         self.test_filename = 'test_labels.7z'
         self.temp_filename = 'temp_labels.jsonl'
         self.remove_existing = True
-        self.writer = BIP329JSONLEncryptedWriter(self.test_filename, self.passphrase, self.remove_existing)
+        self.writer = BIP329JSONLEncryptedWriter(
+            self.test_filename, self.passphrase, self.remove_existing)
 
     def tearDown(self):
         if os.path.exists(self.test_filename):
@@ -55,14 +56,14 @@ class TestBIP329JSONLEncryptedWriter(unittest.TestCase):
             # Clean up
             os.remove(decrypt_file)
 
-
     def test_existing_file(self):
         # Create a temporary file for testing
         with open(self.temp_filename, 'w', encoding='utf-8') as file:
             file.write("Some data")
 
         # Create the writer with remove_existing set to False
-        writer = BIP329JSONLEncryptedWriter(self.temp_filename, self.passphrase, remove_existing=False)
+        writer = BIP329JSONLEncryptedWriter(
+            self.temp_filename, self.passphrase, remove_existing=False)
 
         # Check if the existing file was moved to a backup location
         self.assertTrue(os.path.exists(writer.backup_filename))
@@ -70,18 +71,18 @@ class TestBIP329JSONLEncryptedWriter(unittest.TestCase):
         # Clean up
         os.remove(writer.backup_filename)
 
-
-
     def test_existing_file_removal(self):
         # Create a temporary file for testing
         with open(self.temp_filename, 'w', encoding='utf-8') as file:
             file.write("Some data")
 
         # Create the writer with remove_existing set to True
-        writer = BIP329JSONLEncryptedWriter(self.temp_filename, self.passphrase, remove_existing=True)
+        writer = BIP329JSONLEncryptedWriter(
+            self.temp_filename, self.passphrase, remove_existing=True)
 
         # Check if the existing file was removed
         self.assertFalse(os.path.exists(self.temp_filename))
+
 
 if __name__ == '__main__':
     unittest.main()
