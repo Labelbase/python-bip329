@@ -27,9 +27,18 @@ pip install python-bip329 (not pushed to PyPI yet!)
 
 ```python
 from bip329.bip329_parser import BIP329_Parser
-filename = "/Users/satoshi/bip-329-labels.jsonp"
+filename = "/Users/satoshi/bip-329-labels.jsonl"
 parser = BIP329_Parser(filename)
 entries = parser.load_entries()
 for entry in entries:
     print(entry)
 ```
+
+
+
+## Run the test
+PY3=/opt/homebrew/bin/python3.10
+$PY3 -m unittest bip329.tests.test_bip329_writer
+$PY3 -m unittest bip329.tests.test_bip329_encrypted_writer
+$PY3 -m unittest bip329.tests.test_bip329_parser
+$PY3  -m unittest bip329.tests.test_encryption

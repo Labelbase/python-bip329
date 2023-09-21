@@ -1,0 +1,13 @@
+language: python
+python:
+  - "3.9"
+  - "3.10"
+  - "3.11"
+
+
+install:
+  - pip install -r requirements.txt  # Replace with the name of your requirements file if needed
+
+# Run your tests
+script:
+  - python -m unittest discover tests
