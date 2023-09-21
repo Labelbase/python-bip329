@@ -77,7 +77,7 @@ class TestBIP329JSONLEncryptedWriter(unittest.TestCase):
             file.write("Some data")
 
         # Create the writer with remove_existing set to True
-        writer = BIP329JSONLEncryptedWriter(
+        BIP329JSONLEncryptedWriter(
             self.temp_filename, self.passphrase, remove_existing=True)
 
         # Check if the existing file was removed
