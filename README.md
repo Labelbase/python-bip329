@@ -1,44 +1,38 @@
-# BIP-329 Parser
+# BIP-329 Python Library
 
-A Python parser for handling [BIP-329](https://github.com/bitcoin/bips/blob/master/bip-0329.mediawiki) JSON Line files, designed to efficiently read, validate, and process JSON lines following the BIP-329 specification.
-
-## Overview
-
-[BIP-329](https://github.com/bitcoin/bips/blob/master/bip-0329.mediawiki) (Bitcoin Improvement Proposal 329) defines a lightweight, human-readable, and well-structured format for exporting, importing and syncing labels.
-
-
-## Features
-
-- Read and parse BIP-329 JSON Line files.
-- Validates entries according to the BIP-329 specification.
-- Supports both required and optional key-value pairs.
-- Ensures that "spendable" is only checked when "type" is "output."
-- Easy-to-use Python class for integration into your projects.
+**BIP-329** is a Bitcoin Improvement Proposal that defines a standardized format for exporting, importing, and syncing Bitcoin wallet labels. This Python library provides a set of tools for working with BIP-329 compliant label files. Whether you want to parse, write, encrypt, or decrypt BIP-329 labels, this library has you covered.
 
 ## Installation
 
-You can install the BIP-329 JSON Line Parser using pip:
+You can install the `python-bip329` library using pip:
 
-```bash
-pip install python-bip329 (not pushed to PyPI yet!)
-```
+`pip install python-bip329`
+
+
 
 ## Usage
 
+### Parsing BIP-329 Label Files
+
+The `BIP329_Parser` class allows you to parse BIP-329 label files. Here's an example of how to use it:
+
 ```python
 from bip329.bip329_parser import BIP329_Parser
-filename = "/Users/satoshi/bip-329-labels.jsonl"
+
+# Specify the path to your BIP-329 label file
+filename = "/path/to/bip-329-labels.jsonl"
+
+# Create a BIP329_Parser instance
 parser = BIP329_Parser(filename)
+
+# Load and parse the entries from the label file
 entries = parser.load_entries()
+
+# Iterate through the parsed entries
 for entry in entries:
     print(entry)
 ```
 
+### Writing BIP-329 Label Files
 
-
-## Run the test
-PY3=/opt/homebrew/bin/python3.10
-$PY3 -m unittest bip329.tests.test_bip329_writer
-$PY3 -m unittest bip329.tests.test_bip329_encrypted_writer
-$PY3 -m unittest bip329.tests.test_bip329_parser
-$PY3  -m unittest bip329.tests.test_encryption
+To write BIP-329 label files, you can use the BIP329JSONLWriter class. This class allows you to create or overwrite BIP-329 label files. You can choose whether to remove existing files or create backups when necessary. Here's an example:
