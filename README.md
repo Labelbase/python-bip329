@@ -60,8 +60,6 @@ label_entry = {
 # Write the label entry to the file
 label_writer.write_label(label_entry)
 
-# Close the writer when finished
-label_writer.close()
 ```
 
 
@@ -114,7 +112,7 @@ Provide the path to the encrypted file, the output directory, and the passphrase
 Here's an example:
 
 ```python
-from bip329.bip329_writer import decrypt_files
+from bip329.encryption import decrypt_files
 
 # Specify the path to the encrypted BIP-329 label file
 encrypted_file = "/path/to/encrypted-bip-329-labels.7z"
