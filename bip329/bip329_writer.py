@@ -106,7 +106,7 @@ class BIP329JSONLEncryptedWriter:
 
         - However, in BIP329JSONLEncryptedWriter, `remove_existing` is supported.
           Setting it to `False` will preserve any previously exported files by creating a backup if necessary.
-          The path to the backup will be returned instead of None .
+          The path to the backup will stored in self.backup_filename .
         """
         self.temp_file = tempfile.NamedTemporaryFile(delete=False, mode='w', encoding='utf-8')
         self.jsonl_writer = BIP329JSONLWriter(self.temp_file.name, remove_existing=True)
