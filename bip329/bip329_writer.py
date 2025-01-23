@@ -6,7 +6,6 @@ import py7zr
 import shutil
 import time
 
-from .constants import VALID_SPENDABLE_VALUES
 from .constants import VALID_REQUIRED_KEYS
 from .constants import VALID_TYPE_KEYS
 from .constants import MANDATORY_KEYS_ERROR
@@ -80,22 +79,17 @@ class BIP329JSONLWriter:
                         "Invalid 'origin' field in BIP-329 record")
 
             # Check and add "spendable" if present and valid
-            if callable(getattr(line, "spendable", None)):
-                spendable = line.spendable()
-                if spendable in VALID_SPENDABLE_VALUES:
-                    label_dict["spendable"] = "true" if spendable in [
-                        "true", True] else "false"
+            if ("spendable" in line) or hasattr(line, "spendable"):
+                if callable(getattr(line, "spendable", None)):
+                    spendable = line.spendable()
                 else:
+                    spendable = line["spendable"]
+
+                if spendable not in {True, False}:
                     raise ValueError(
-                        "Invalid 'spendable' field in BIP-329 record")
-            elif "spendable" in line:
-                spendable = line["spendable"]
-                if spendable in VALID_SPENDABLE_VALUES:
-                    label_dict["spendable"] = "true" if spendable in [
-                        "true", True] else "false"
-                else:
-                    raise ValueError(
-                        "Invalid 'spendable' field in BIP-329 record")
+                        "Invalid 'spendable' field in BIP-329 record: %r" % spendable)
+
+                label_dict["spendable"] = spendable
 
             with open(self.filename, mode='a', encoding='utf-8') as writer:
                 writer.write(json.dumps(label_dict) + '\n')
