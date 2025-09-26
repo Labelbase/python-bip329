@@ -4,6 +4,7 @@ import json
 import os
 from bip329.bip329_writer import BIP329JSONLWriter
 
+
 class TestBIP329JSONLWriter(unittest.TestCase):
     def setUp(self):
         # Create a temporary file for testing
@@ -122,7 +123,7 @@ class TestBIP329JSONLWriter(unittest.TestCase):
                 "ref": "bc1q34aq5drpuwy3wgl9lhup9892qp6svr8ldzyy7c",
                 "label": "Address with invalid fields",
                 "keypath": "/1/123",    # Valid
-                "heights": "not_a_list" # Invalid
+                "heights": "not_a_list"  # Invalid
             }
         ]
 
@@ -154,7 +155,6 @@ class TestBIP329JSONLWriter(unittest.TestCase):
         self.assertIn('Invalid height field type', log_output)
         self.assertIn('Invalid time field type', log_output)
         self.assertIn('Invalid heights field type', log_output)
-
 
     def test_field_validation_by_type_in_writer(self):
         """Test that writer validates fields by type and removes invalid ones"""
@@ -208,7 +208,6 @@ class TestBIP329JSONLWriter(unittest.TestCase):
             with self.assertRaises(ValueError) as context:
                 self.writer.write_label(invalid_label)
             self.assertIn("Invalid BIP-329 record", str(context.exception))
-
 
     def test_spendable_field_validation(self):
         """Test spendable field validation behavior"""

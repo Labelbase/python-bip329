@@ -158,7 +158,7 @@ class TestBIP329Parser(unittest.TestCase):
             parser = BIP329_Parser(test_filename)
 
             # Should log warnings for invalid time formats
-            with self.assertLogs(level='WARNING') as log: # noqa: F841
+            with self.assertLogs(level='WARNING') as log:  # noqa: F841
                 entries = parser.load_entries()
 
             # All entries should load (5 entries)
