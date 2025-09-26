@@ -3,9 +3,7 @@ import unittest
 import os
 import json
 import tempfile
-from unittest.mock import mock_open, patch
 from bip329.bip329_writer import BIP329JSONLEncryptedWriter
-from bip329.encryption import encrypt_files
 from bip329.encryption import decrypt_files
 
 
@@ -24,7 +22,7 @@ class TestBIP329JSONLEncryptedWriter(unittest.TestCase):
         if hasattr(self.writer, 'temp_file') and not self.writer.is_closed:
             try:
                 self.writer.close()
-            except:
+            except Exception:
                 pass
 
         # Clean up all test files
@@ -33,7 +31,7 @@ class TestBIP329JSONLEncryptedWriter(unittest.TestCase):
             if os.path.exists(filename):
                 try:
                     os.remove(filename)
-                except:
+                except Exception:
                     pass
 
     def test_write_label(self):
@@ -184,6 +182,7 @@ class TestBIP329JSONLEncryptedWriter(unittest.TestCase):
             self.writer.write_label(label)
 
         self.assertIn("Writer is closed", str(context.exception))
+
 
 if __name__ == '__main__':
     unittest.main()

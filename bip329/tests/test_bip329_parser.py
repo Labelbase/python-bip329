@@ -133,7 +133,6 @@ class TestBIP329Parser(unittest.TestCase):
             self.assertIn('Invalid heights field type', log_output)
             self.assertIn('Invalid rate field type', log_output)
 
-
             # All entries should have required fields
             for entry in entries:
                 self.assertIn('type', entry)
@@ -178,7 +177,6 @@ class TestBIP329Parser(unittest.TestCase):
             log_output = ''.join(log.output)
             self.assertIn('Invalid ISO-8601 time format', log_output)
             self.assertIn('Invalid ISO-8601 time format', log_output)
-
 
         finally:
             if os.path.exists(test_filename):
@@ -267,7 +265,6 @@ class TestBIP329Parser(unittest.TestCase):
         finally:
             if os.path.exists(test_filename):
                 os.remove(test_filename)
-
 
     def test_missing_mandatory_fields(self):
         """Test handling of entries missing required fields"""

@@ -1,7 +1,6 @@
 # file: bip329_parser.py
 import json
 import logging
-from datetime import datetime
 from .constants import BOOL_KEYS
 from .constants import VALID_REQUIRED_KEYS
 from .constants import VALID_TYPE_KEYS
@@ -12,7 +11,7 @@ from .validation_utils import validate_rate_field
 from .validation_utils import validate_fmv_field
 from .validation_utils import validate_iso8601_time
 from .validation_utils import validate_label_length
-from .validation_utils import validate_utf8_encoding
+
 
 class BIP329_Parser:
     def __init__(self, jsonl_path, allow_boolsy=False, replace_non_utf8=False):
@@ -23,7 +22,7 @@ class BIP329_Parser:
 
     def load_entries(self):
         self.entries = []
-        line_number = 0 # Track line numbers for error reporting
+        line_number = 0  # Track line numbers for error reporting
         try:
             with open(self.jsonl_path, 'r') as file:
                 for line in file:
@@ -49,7 +48,6 @@ class BIP329_Parser:
         except Exception as e:
             logging.error(f"Error reading file: {e}")
         return self.entries
-
 
     def is_valid_entry(self, entry):
         if not all(key in entry for key in VALID_REQUIRED_KEYS):
@@ -92,8 +90,8 @@ class BIP329_Parser:
                         elif lv in ("false", "0", "no", "n"):
                             entry[k] = False
                         elif lv == "":
-                           logging.info(f"Empty string for {k} converted to False")
-                           entry[k] = False
+                            logging.info(f"Empty string for {k} converted to False")
+                            entry[k] = False
                         else:
                             logging.warning(f"Invalid boolean string for {k}: {v}")
                             del entry[k]
@@ -126,14 +124,14 @@ class BIP329_Parser:
                         logging.warning(f"Invalid rate field type: expected dict, got {type(field_value).__name__}")
                         optional_fields_to_remove.append(field_name)
                     elif not validate_rate_field(field_value):
-                        logging.warning(f"Invalid rate field format: must contain ISO 4217 currency codes and numeric values")
+                        logging.warning("Invalid rate field format: must contain ISO 4217 currency codes and numeric values")
                         optional_fields_to_remove.append(field_name)
                 elif field_name == 'fmv':
                     if not isinstance(field_value, dict):
                         logging.warning(f"Invalid fmv field type: expected dict, got {type(field_value).__name__}")
                         optional_fields_to_remove.append(field_name)
                     elif not validate_fmv_field(field_value):
-                        logging.warning(f"Invalid fmv field format: must contain ISO 4217 currency codes and numeric values")
+                        logging.warning("Invalid fmv field format: must contain ISO 4217 currency codes and numeric values")
                         optional_fields_to_remove.append(field_name)
                 # Standard type validation for all other optional fields
                 elif not isinstance(field_value, expected_type):
@@ -146,7 +144,6 @@ class BIP329_Parser:
 
         if 'label' in entry:
             validate_label_length(entry['label'])
-
 
         if 'origin' in entry and not isinstance(entry['origin'], str):
             raise TypeError('origin must be string')

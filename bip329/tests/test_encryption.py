@@ -68,7 +68,6 @@ class TestEncryption(unittest.TestCase):
         with self.assertRaises(FileNotFoundError):
             decrypt_files(nonexistent_archive, self.temp_out, self.passphrase)
 
-
     def test_encrypt_multiple_files(self):
         """Test encrypting multiple files in one archive"""
         # Create multiple test files

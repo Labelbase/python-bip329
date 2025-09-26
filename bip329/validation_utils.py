@@ -1,5 +1,4 @@
 # file: validation_utils.py
-import re
 from datetime import datetime
 import logging
 
@@ -38,12 +37,13 @@ def validate_rate_field(rate_value):
             decimal_places = len(decimal_str.split('.')[-1]) if '.' in decimal_str else 0
             if decimal_places > 8:
                 return False
-
     return True
+
 
 def validate_fmv_field(fmv_value):
     """Same validation as rate field"""
     return validate_rate_field(fmv_value)
+
 
 def validate_iso8601_time(time_value):
     """Validate ISO-8601 time format"""
@@ -56,11 +56,13 @@ def validate_iso8601_time(time_value):
     except ValueError:
         return False
 
+
 def validate_label_length(label):
     """Validate label field length per BIP-329 suggestion of 255 chars max"""
     if label and isinstance(label, str):
         if len(label) > 255:
             logging.warning(f"Label {label} with length ({len(label)}) exceeds suggested maximum of 255 characters")
+
 
 def validate_utf8_encoding(text, replace_non_utf8):
     if not isinstance(text, str):
@@ -68,12 +70,12 @@ def validate_utf8_encoding(text, replace_non_utf8):
     try:
         text.encode('utf-8')
         return text
-    except UnicodeEncodeError as e:
+    except UnicodeEncodeError:
         if replace_non_utf8:
             # Use 'replace' error handler which should produce �
             fixed_text = text.encode('utf-8', errors='replace').decode('utf-8')
-            logging.warning(f"Invalid UTF-8 characters replaced with �")
+            logging.warning("Invalid UTF-8 characters replaced with �")
             return fixed_text
         else:
-            logging.error(f"Invalid UTF-8 encoding")
-            raise ValueError(f"Invalid UTF-8 encoding")
+            logging.error("Invalid UTF-8 encoding")
+            raise ValueError("Invalid UTF-8 encoding")

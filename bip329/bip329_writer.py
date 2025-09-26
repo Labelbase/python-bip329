@@ -2,27 +2,21 @@
 import json
 import tempfile
 import os
-import hashlib
-import py7zr
 import shutil
 import time
 import logging
-from datetime import datetime
-
 from .constants import VALID_REQUIRED_KEYS
 from .constants import VALID_TYPE_KEYS
 from .constants import MANDATORY_KEYS_ERROR
 from .constants import OPTIONAL_FIELDS
-from .constants import FIELD_TYPES_BY_TYPE
 from .constants import VALID_FIELDS_BY_TYPE
-
 from .encryption import encrypt_files
-
 from .validation_utils import validate_rate_field
 from .validation_utils import validate_fmv_field
 from .validation_utils import validate_iso8601_time
 from .validation_utils import validate_label_length
 from .validation_utils import validate_utf8_encoding
+
 
 class BIP329JSONLWriter:
     def __init__(self, filename,
@@ -30,9 +24,11 @@ class BIP329JSONLWriter:
                     replace_non_utf8=False,
                     truncate_labels=False):
         """
-        If `remove_existing` is `True` any existing files with the same name will be overwritten/replaced.
+        If `remove_existing` is `True` any existing files with the same name
+        will be overwritten/replaced.
 
-        Setting it to `False` will preserve any previously exported files by creating a backup if necessary.
+        Setting it to `False` will preserve any previously exported files by
+        creating a backup if necessary.
         """
         self.filename = filename
         self.replace_non_utf8 = replace_non_utf8
@@ -43,7 +39,8 @@ class BIP329JSONLWriter:
                 # If it exists and remove_existing is True, remove it
                 os.remove(self.filename)
             else:
-                # If it exists and remove_existing is False, move it to a backup location with a timestamp
+                # If it exists and remove_existing is False, move it to a backup
+                # location with a timestamp
                 timestamp = int(time.time())
                 backup_filename = f"{self.filename}.{timestamp}.bak"
                 shutil.move(self.filename, backup_filename)
@@ -65,11 +62,9 @@ class BIP329JSONLWriter:
 
     def write_label(self, line):
         # Check if the line is a valid BIP-329 record
-        if (
-            (isinstance(line, dict) and "type" in line and "ref" in line ) or
+        if ((isinstance(line, dict) and "type" in line and "ref" in line ) or
             (callable(getattr(line, "type", None)) and callable(
-                getattr(line, "ref", None)))
-        ):
+                getattr(line, "ref", None)))):
             if callable(getattr(line, "type", None)):
                 label_type = line.type()
             else:
@@ -178,7 +173,7 @@ class BIP329JSONLWriter:
                         logging.warning(f"Invalid rate field type: expected dict, got {type(field_value).__name__}")
                         continue
                     elif not validate_rate_field(field_value):
-                        logging.warning(f"Invalid rate field format: must contain ISO 4217 currency codes and numeric values")
+                        logging.warning("Invalid rate field format: must contain ISO 4217 currency codes and numeric values")
                         continue
                     label_dict[field_name] = field_value
                 elif field_name == 'fmv':
@@ -186,7 +181,7 @@ class BIP329JSONLWriter:
                         logging.warning(f"Invalid fmv field type: expected dict, got {type(field_value).__name__}")
                         continue
                     elif not validate_fmv_field(field_value):
-                        logging.warning(f"Invalid fmv field format: must contain ISO 4217 currency codes and numeric values")
+                        logging.warning("Invalid fmv field format: must contain ISO 4217 currency codes and numeric values")
                         continue
                     label_dict[field_name] = field_value
 
@@ -204,6 +199,7 @@ class BIP329JSONLWriter:
         else:
             raise ValueError(
                 "Invalid BIP-329 record: 'type', 'ref', and 'label' attributes or keys are required, and only valid fields are exported.")
+
 
 class BIP329JSONLEncryptedWriter:
     def __init__(self, filename, passphrase, remove_existing=True, replace_non_utf8=False):

@@ -350,7 +350,7 @@ class TestBIP329JSONLWriter(unittest.TestCase):
             file.write(existing_content)
 
         # Test remove_existing=False
-        writer2 = BIP329JSONLWriter(self.test_filename, remove_existing=False)
+        writer2 = BIP329JSONLWriter(self.test_filename, remove_existing=False)  # noqa: F841
 
         # Check backup was created
         backup_files = [f for f in os.listdir('.') if f.startswith(self.test_filename) and f.endswith('.bak')]
@@ -462,7 +462,6 @@ class TestBIP329JSONLWriter(unittest.TestCase):
         # Wait for all threads to complete
         for t in threads:
             t.join()
-
         # Test passes if no exceptions were raised
 
     def test_label_truncation_option(self):
