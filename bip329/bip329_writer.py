@@ -62,7 +62,7 @@ class BIP329JSONLWriter:
 
     def write_label(self, line):
         # Check if the line is a valid BIP-329 record
-        if ((isinstance(line, dict) and "type" in line and "ref" in line ) or \
+        if ((isinstance(line, dict) and "type" in line and "ref" in line) or
             (callable(getattr(line, "type", None)) and callable(
                 getattr(line, "ref", None)))):
             if callable(getattr(line, "type", None)):

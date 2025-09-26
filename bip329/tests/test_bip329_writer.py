@@ -269,10 +269,17 @@ class TestBIP329JSONLWriter(unittest.TestCase):
                 self._label = label_val
                 self._kwargs = kwargs
 
-            def type(self): return self._type
-            def ref(self): return self._ref
-            def label(self): return self._label
-            def origin(self): return self._kwargs.get('origin')
+            def type(self):
+                return self._type
+
+            def ref(self):
+                return self._ref
+
+            def label(self):
+                return self._label
+
+            def origin(self):
+                return self._kwargs.get('origin')
 
             # Fix: Only return spendable if it exists and has a valid value
             def spendable(self):

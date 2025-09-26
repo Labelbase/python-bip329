@@ -338,7 +338,7 @@ class TestBIP329Parser(unittest.TestCase):
     def test_empty_file(self):
         """Test parsing empty file"""
         test_filename = 'test_empty.jsonl'
-        with open(test_filename, 'w') as file:
+        with open(test_filename, 'w') as file:  # noqa: F841
             pass  # Create empty file
 
         try:

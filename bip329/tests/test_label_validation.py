@@ -55,6 +55,7 @@ class TestLabelValidation(unittest.TestCase):
         # Test passes if no exception was raised
         self.assertTrue(True)  # Explicit pass
 
+
 class TestUTF8Validation(unittest.TestCase):
     def setUp(self):
         self.test_filename = 'test_utf8_validation.jsonl'
@@ -80,7 +81,6 @@ class TestUTF8Validation(unittest.TestCase):
         # Check that invalid characters were replaced (could be � or ?)
         self.assertNotIn('\udcff', result)  # Original invalid char should be gone
         self.assertIn('replaced with', ''.join(log.output))
-
 
     def test_writer_utf8_validation(self):
         """Test writer validates UTF-8 encoding"""
