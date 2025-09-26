@@ -133,6 +133,37 @@ Please replace the placeholders with your actual file paths and data as needed.
 
 To ensure the correctness of the library, you can run the provided unit tests.
 
+You can run the tests in several ways depending on your setup:
+### Option 1: Run from the project root directory
+
+```
+# Run all tests in the test file
+python -m pytest bip329/tests/test_bip329_parser.py -v
+
+# Or run specific test methods
+python -m pytest bip329/tests/test_bip329_parser.py::TestBIP329Parser::test_invalid_optional_field_types -v
+```
+
+### Option 2: Run all tests
+
+```
+# Run all tests in the project
+python -m pytest bip329/tests/ -v
+```
+
+### Option 3: Using unittest directly
+```
+# Run the test file directly
+python -m unittest bip329.tests.test_bip329_parser -v
+```
+
+## Hints
+
+If you get import errors, you might need to install the package in development mode:
+
+```
+pip install -e .
+```
 
 
 ---
