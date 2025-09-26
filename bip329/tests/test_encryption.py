@@ -11,7 +11,6 @@ class TestEncryption(unittest.TestCase):
     def setUp(self):
         self.temp_dir = tempfile.mkdtemp()
         self.temp_out = tempfile.mkdtemp()
-
         self.input_file = os.path.join(self.temp_dir, 'test.txt')
         self.output_archive = os.path.join(self.temp_dir, 'test.7z')
         self.passphrase = "secret_passphrase"
@@ -194,6 +193,7 @@ class TestEncryption(unittest.TestCase):
 
         # Should be a valid 7z file (starts with 7z signature)
         self.assertTrue(archive_content.startswith(b'7z\xbc\xaf\x27\x1c'))
+
 
 if __name__ == '__main__':
     unittest.main()

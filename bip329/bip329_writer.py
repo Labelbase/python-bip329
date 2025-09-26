@@ -62,14 +62,13 @@ class BIP329JSONLWriter:
 
     def write_label(self, line):
         # Check if the line is a valid BIP-329 record
-        if ((isinstance(line, dict) and "type" in line and "ref" in line ) or
+        if ((isinstance(line, dict) and "type" in line and "ref" in line ) or \
             (callable(getattr(line, "type", None)) and callable(
                 getattr(line, "ref", None)))):
             if callable(getattr(line, "type", None)):
                 label_type = line.type()
             else:
                 label_type = line["type"]
-
 
             assert label_type in VALID_TYPE_KEYS
 
@@ -81,7 +80,6 @@ class BIP329JSONLWriter:
             label_dict = {
                 "type": label_type,
                 "ref": label_ref,
-            #    "label": line.label() if callable(getattr(line, "label", None)) else line["label"],
             }
 
             label_value = None
@@ -111,9 +109,6 @@ class BIP329JSONLWriter:
                 except ValueError:
                     if not self.replace_non_utf8:
                         raise ValueError("Invalid UTF-8 encoding in label")
-
-
-
 
             # Check if all mandatory keys are present
             if not all(key in label_dict for key in VALID_REQUIRED_KEYS):

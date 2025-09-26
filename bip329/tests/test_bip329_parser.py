@@ -104,7 +104,7 @@ class TestBIP329Parser(unittest.TestCase):
             parser = BIP329_Parser(test_filename)
 
             # Should log warnings for invalid field types
-            with self.assertLogs(level='WARNING') as log:
+            with self.assertLogs(level='WARNING') as log:  # noqa: F841
                 entries = parser.load_entries()
 
             # All entries should still be loaded (lenient validation)
@@ -158,7 +158,7 @@ class TestBIP329Parser(unittest.TestCase):
             parser = BIP329_Parser(test_filename)
 
             # Should log warnings for invalid time formats
-            with self.assertLogs(level='WARNING') as log:
+            with self.assertLogs(level='WARNING') as log: # noqa: F841
                 entries = parser.load_entries()
 
             # All entries should load (5 entries)
@@ -195,7 +195,7 @@ class TestBIP329Parser(unittest.TestCase):
         try:
             # Test strict mode (default)
             parser_strict = BIP329_Parser(test_filename, allow_boolsy=False)
-            with self.assertLogs(level='WARNING') as log:
+            with self.assertLogs(level='WARNING') as log:  # noqa: F841
                 entries_strict = parser_strict.load_entries()
 
             # All spendable fields should be removed in strict mode
@@ -229,7 +229,7 @@ class TestBIP329Parser(unittest.TestCase):
 
         try:
             parser = BIP329_Parser(test_filename)
-            with self.assertLogs(level='WARNING') as log:
+            with self.assertLogs(level='WARNING') as log:  # noqa: F841
                 entries = parser.load_entries()
 
             # Should have 5 entries total
@@ -261,7 +261,6 @@ class TestBIP329Parser(unittest.TestCase):
             log_output = ''.join(log.output)
             self.assertIn('not valid for type', log_output)
 
-
         finally:
             if os.path.exists(test_filename):
                 os.remove(test_filename)
@@ -278,7 +277,7 @@ class TestBIP329Parser(unittest.TestCase):
 
         try:
             parser = BIP329_Parser(test_filename)
-            with self.assertLogs(level='WARNING') as log:
+            with self.assertLogs(level='WARNING') as log:  # noqa: F841
                 entries = parser.load_entries()
 
             # Only entries with both type and ref are loaded
@@ -353,7 +352,7 @@ class TestBIP329Parser(unittest.TestCase):
     def test_file_not_found(self):
         """Test handling of non-existent file"""
         parser = BIP329_Parser('non_existent_file.jsonl')
-        with self.assertLogs(level='ERROR') as log:
+        with self.assertLogs(level='ERROR') as log:  # noqa: F841
             entries = parser.load_entries()
 
         self.assertEqual(len(entries), 0)
@@ -362,7 +361,7 @@ class TestBIP329Parser(unittest.TestCase):
     def test_label_and_origin_type_validation(self):
         """Test validation warnings for non-string label/origin"""
         test_filename = 'test_string_validation.jsonl'
-        with open(test_filename, 'w') as file:
+        with open(test_filename, 'w') as file:  # noqa: F841
             test_data = '''{"type": "tx", "ref": "abc123", "label": 123, "origin": "valid"}
     {"type": "addr", "ref": "def456", "label": "valid", "origin": 456}'''
             file.write(test_data)
@@ -371,7 +370,7 @@ class TestBIP329Parser(unittest.TestCase):
             parser = BIP329_Parser(test_filename)
 
             # Should log warnings for validation errors, not raise exceptions
-            with self.assertLogs(level='WARNING') as log:
+            with self.assertLogs(level='WARNING') as log:  # noqa: F841
                 entries = parser.load_entries()
 
             # No entries should be loaded due to validation failures
@@ -381,5 +380,7 @@ class TestBIP329Parser(unittest.TestCase):
         finally:
             if os.path.exists(test_filename):
                 os.remove(test_filename)
+
+
 if __name__ == '__main__':
     unittest.main()

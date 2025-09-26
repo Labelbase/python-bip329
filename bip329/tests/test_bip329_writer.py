@@ -485,5 +485,6 @@ class TestBIP329JSONLWriter(unittest.TestCase):
 
         self.assertEqual(len(written_label['label']), 255)
 
+
 if __name__ == '__main__':
     unittest.main()

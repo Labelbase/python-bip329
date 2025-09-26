@@ -1,9 +1,9 @@
 # file: test_label_validation.py
 import unittest
 import os
-import logging
 from bip329.bip329_parser import BIP329_Parser
 from bip329.bip329_writer import BIP329JSONLWriter
+
 
 class TestLabelValidation(unittest.TestCase):
     def setUp(self):
@@ -96,6 +96,7 @@ class TestUTF8Validation(unittest.TestCase):
 
         # Should log warning about UTF-8 replacement
         self.assertIn('Invalid UTF-8', ''.join(log.output))
+
 
 if __name__ == '__main__':
     unittest.main()
